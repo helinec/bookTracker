@@ -6,51 +6,7 @@
 //Book Table and displayed on the page.
 
 import { useState } from 'react';
-
-//book table
-export function BookTable({books}) {
-  return (
-    <div>
-      <h1>Book Table</h1>
-      {books.length === 0 ? (
-        <p>No books added yet.</p>
-      ) : (
-        <table className="bookTable">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Author</th>
-              <th>Genre</th>
-              <th>Rating</th>
-              <th>Description</th>
-              <th>Link</th>
-            </tr>
-          </thead>
-          <tbody>
-            {books.map((b, idx) => (
-              <tr key={idx}>
-                <td>{b.name}</td>
-                <td>{b.author}</td>
-                <td>{b.genre}</td>
-                <td>{b.rating}</td>
-                <td>{b.description}</td>
-                <td>
-                  {b.link ? (
-                    <a href={b.link} target="_blank" rel="noreferrer">
-                      link
-                    </a>
-                  ) : (
-                    '-'
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-}
+import { BookTable } from './BookTable.jsx';
 
 //form to collect inputted books
 //put them in a table
@@ -118,10 +74,22 @@ export function BookManager() {
     setBooks(prev => [...prev, newBook]);
   }
 
+  function deleteBook(idx) {
+    setBooks(prev => prev.filter((_, i) => i !== idx));
+  }
+
+  function editBook(idx, updatedBook) {
+    setBooks(prev => {
+      const newBooks = [...prev];
+      newBooks[idx] = updatedBook;
+      return newBooks;
+    });
+  }
+
   return (
     <div className="book-manager">
       <BookAdder onAdd={addBook} />
-      <BookTable books={books} />
+      <BookTable books={books} onDelete={deleteBook} onEdit={editBook} />
     </div>
   );
 }
