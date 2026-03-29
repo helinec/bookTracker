@@ -5,8 +5,9 @@
 //When the form is submitted, the new book should be added to the 
 //Book Table and displayed on the page.
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { BookTable } from './BookTable.jsx';
+import { SearchBar } from './SearchBar.jsx';
 
 //form to collect inputted books
 //put them in a table
@@ -69,6 +70,18 @@ export function BookAdder({onAdd}) {
 //must have the addBook function to add the new book to the table.
 export function BookManager() {
   const [books, setBooks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredBooks = useMemo(() => {
+    const lower = searchQuery.trim().toLowerCase();
+    if (!lower) return books;
+    return books.filter(book => {
+      return [book.name, book.author, book.genre, book.description]
+        .join(' ')
+        .toLowerCase()
+        .includes(lower);
+    });
+  }, [books, searchQuery]);
 
   function addBook(newBook) {
     setBooks(prev => [...prev, newBook]);
@@ -89,7 +102,8 @@ export function BookManager() {
   return (
     <div className="book-manager">
       <BookAdder onAdd={addBook} />
-      <BookTable books={books} onDelete={deleteBook} onEdit={editBook} />
+      <SearchBar query={searchQuery} onQueryChange={setSearchQuery} />
+      <BookTable books={filteredBooks} onDelete={deleteBook} onEdit={editBook} />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 //author, genre, rating, description, and link
 
 import { useState } from 'react';
+import { SearchBar } from './SearchBar';
 
 export function BookTable({ books, onDelete, onEdit }) {
   const [editId, setEditId] = useState(null);
@@ -30,6 +31,7 @@ export function BookTable({ books, onDelete, onEdit }) {
   return (
     <div>
       <h1>Book Table</h1>
+      
       {books.length === 0 ? (
         <p>No books added yet.</p>
       ) : (
