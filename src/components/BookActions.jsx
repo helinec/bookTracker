@@ -104,6 +104,7 @@ export function BookManager() {
       <BookAdder onAdd={addBook} />
       <SearchBar query={searchQuery} onQueryChange={setSearchQuery} />
       <BookTable books={filteredBooks} onDelete={deleteBook} onEdit={editBook} />
+
     </div>
   );
 }

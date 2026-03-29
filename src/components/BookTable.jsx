@@ -29,9 +29,7 @@ export function BookTable({ books, onDelete, onEdit }) {
   }
 
   return (
-    <div>
-      <h1>Book Table</h1>
-      
+    <div>      
       {books.length === 0 ? (
         <p>No books added yet.</p>
       ) : (
